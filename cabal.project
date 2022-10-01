@@ -1,0 +1,6 @@
+source-repository-package
+  type: git
+  location: https://github.com/PKopel/curl-gen.git
+  tag: c474f3756b0ef6cef8b6e193f73ba8ee8aacc7e1
+
+packages: ./curl-gen-wasm.cabal ./curl-gen-server.cabal

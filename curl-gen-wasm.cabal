@@ -1,0 +1,33 @@
+cabal-version: 1.12
+
+name:           curl-gen-wasm
+version:        0.1.0
+description:    Please see the README on Github at <https://github.com/PKopel/curl-gen-server#readme>
+homepage:       https://github.com/PKopel/curl-gen-server#readme
+bug-reports:    https://github.com/PKopel/curl-gen-server/issues
+author:         Paweł Kopel
+maintainer:     Pawel.Kopel2@gmail.com
+copyright:      2022 Paweł Kopel
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/PKopel/curl-gen-server
+
+executable curl-gen-wasm
+  main-is: Main.hs
+  other-modules:
+      Paths_curl_gen
+  hs-source-dirs:
+      wasm
+  ghc-options: -optl--export-function=generateBash -optl--export-function=generatePowershell  -Wall
+  build-depends:
+      base >=4.11 && <10
+    , curl-gen
+  default-language: Haskell2010
+
