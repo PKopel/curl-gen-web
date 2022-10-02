@@ -8,6 +8,8 @@ CABAL_BUILD_DIR := $(BUILD_DIR)/cabal
 AHC_CABAL_BUILD_DIR := $(BUILD_DIR)/ahc-cabal
 AHC_CABAL_INSTALL_DIR := $(BUILD_DIR)
 ASTERIUS_OUTPUT_DIR = $(BUILD_DIR)/asterius
+UID := $(shell id -u)
+GID := $(shell id -g)
 
 
 .PHONY: compile
@@ -17,7 +19,7 @@ compile:
 			--builddir $(AHC_CABAL_BUILD_DIR) --installdir $(AHC_CABAL_INSTALL_DIR) \
 			--install-method copy --overwrite-policy always
 	docker run --rm -v $(CURDIR):$(DOCKER_WS):z -w $(DOCKER_WS) $(AHC_DOCKER_IMAGE) \
-		chown -hR $(UID):$(UID) $(BUILD_DIR)
+		chown -hR $(UID):$(GID) $(BUILD_DIR)
 
 .PHONY: link
 link: compile
@@ -29,7 +31,7 @@ link: compile
 			--input-mjs static/index.mjs --no-main --browser \
 			--gc-threshold 640
 	docker run --rm -v $(CURDIR):$(DOCKER_WS):z -w $(DOCKER_WS) $(AHC_DOCKER_IMAGE) \
-		chown -hR $(UID):$(UID) $(BUILD_DIR)
+		chown -hR $(UID):$(GID) $(BUILD_DIR)
 
 .PHONY: docker
 docker:
