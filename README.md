@@ -3,7 +3,9 @@
 Webb app for curl scripts generation using [curl-gen](https://github.com/PKopel/curl-gen) library.
 Haskell code is compiled to webassembly using [asterius](https://github.com/tweag/asterius).
 
-## Try it
+## Try it out
+
+<https://pkopel.github.io/curl-gen-server/>
 
 ## Running locally
 
