@@ -2,7 +2,7 @@ AHC_DOCKER_IMAGE := terrorjack/asterius
 APP_DOCKER_IMAGE ?= pkopel/curl-gen-server
 APP_DOCKER_PORT ?= 8080
 DOCKER_WS := /workspace
-BUILD_DIR := _build
+BUILD_DIR := ./build
 CABAL_DIR := $(DOCKER_WS)/$(BUILD_DIR)/.cabal
 CABAL_BUILD_DIR := $(BUILD_DIR)/cabal
 AHC_CABAL_BUILD_DIR := $(BUILD_DIR)/ahc-cabal
@@ -41,7 +41,7 @@ start: link
 	ASTERIUS_OUTPUT_DIR=$(ASTERIUS_OUTPUT_DIR) npm start
 
 .PHONY: build
-build: link
+build: 
 	npm install
 	ASTERIUS_OUTPUT_DIR=$(ASTERIUS_OUTPUT_DIR) npm run build
 

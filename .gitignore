@@ -3,5 +3,6 @@
 tarballs/
 .stack-work/
 _build
+build
 node_modules
 dist-newstyle

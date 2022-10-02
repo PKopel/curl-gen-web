@@ -44,6 +44,20 @@ async function handleModule(m) {
         download("script" + scriptExt, outputText.value);
     });
 
+    //load example from PKopel/curl-gen
+    const example3 = 'https://raw.githubusercontent.com/PKopel/curl-gen/main/examples/example3.txt';
+    let rawFile = new XMLHttpRequest();
+    rawFile.open("GET", example3, false);
+    rawFile.onreadystatechange = function () {
+        if (rawFile.readyState === 4) {
+            if (rawFile.status === 200 || rawFile.status == 0) {
+                var allText = rawFile.responseText;
+                inputText.value = allText;
+            }
+        }
+    }
+    rawFile.send(null);
+
 }
 
 module.then(handleModule);
