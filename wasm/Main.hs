@@ -4,6 +4,9 @@ module Main where
 
 import           Asterius.Types
 import           Asterius.Text
+import           Data.Text                      ( Text
+                                                , pack
+                                                )
 import           Bash.Function                 as BashF
                                                 ( writeFunction )
 import           Bash.Template                 as BashT
@@ -13,27 +16,32 @@ import           Powershell.Function           as PwshF
 import           Powershell.Template           as PwshT
                                                 ( script )
 import           Parser.Curl                    ( parseCurl )
+import           Types.Script                   ( ScriptOptions(..)
+                                                , ScriptLang(..)
+                                                )
 
 main :: IO ()
 main = error "built with --no-main"
 
-generateBash :: Text -> Text
-generateBash contents = case parseCurl contents of
-    Left  s  -> putStrLn s
-    Right cu -> outFun . BashT.script $ map BashF.writeFunction cu
+generateBash :: ScriptOptions -> Text -> Text
+generateBash opts contents = case parseCurl contents of
+    Left  s  -> pack s
+    Right cu -> BashT.script opts $ map (BashF.writeFunction $ random opts) cu
 
-generateBashJs :: JSString -> JSString
-generateBashJs = textToJSString . generateBash . textFromJSString
+generateBashJs :: Bool -> Bool -> JSString -> JSString
+generateBashJs thrd rand = let opts = ScriptOptions thrd rand Bash
+    in textToJSString . generateBash opts . textFromJSString
 
-generatePowershell :: Text -> Text
-generatePowershell = = case parseCurl contents of
-    Left  s  -> putStrLn s
-    Right cu -> outFun . PwshT.script $ map PwshF.writeFunction cu
+generatePwsh :: ScriptOptions -> Text -> Text
+generatePwsh opts contents = case parseCurl contents of
+    Left  s  -> pack s
+    Right cu -> PwshT.script opts $ map (PwshF.writeFunction opts) cu
 
-generatePowershellJs :: JSString -> JSString
-generatePowershellJs = textToJSString . generatePowershell . textFromJSString
+generatePwshJs :: Bool -> Bool -> JSString -> JSString
+generatePwshJs thrd rand = let opts = ScriptOptions thrd rand Bash
+    in textToJSString . generatePwsh opts . textFromJSString
 
 
 
-foreign export javascript "generateBash"       generateBashJs       :: JSString -> JSString
-foreign export javascript "generatePowershell" generatePowershellJs :: JSString -> JSString
+foreign export javascript "generateBash" generateBashJs :: Bool -> Bool -> JSString -> JSString
+foreign export javascript "generatePwsh" generatePwshJs :: Bool -> Bool -> JSString -> JSString
