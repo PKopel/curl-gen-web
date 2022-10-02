@@ -41,7 +41,7 @@ start: link
 	ASTERIUS_OUTPUT_DIR=$(ASTERIUS_OUTPUT_DIR) npm start
 
 .PHONY: build
-build: 
+build: link
 	npm install
 	ASTERIUS_OUTPUT_DIR=$(ASTERIUS_OUTPUT_DIR) npm run build
 
