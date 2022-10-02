@@ -1,5 +1,6 @@
 AHC_DOCKER_IMAGE := terrorjack/asterius
-APP_DOCKER_IMAGE := pkopel/curl-gen-server
+APP_DOCKER_IMAGE ?= pkopel/curl-gen-server
+APP_DOCKER_PORT ?= 8080
 DOCKER_WS := /workspace
 BUILD_DIR := _build
 CABAL_DIR := $(DOCKER_WS)/$(BUILD_DIR)/.cabal
@@ -29,6 +30,10 @@ link: compile
 .PHONY: docker
 docker:
 	docker build -t $(APP_DOCKER_IMAGE) .
+
+.PHONY: docker-run
+docker-run: docker
+	docker run --rm -p $(APP_DOCKER_PORT):80 $(APP_DOCKER_IMAGE)
 
 .PHONY: start
 start: link
