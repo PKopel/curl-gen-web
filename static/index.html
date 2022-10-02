@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Curl script generation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        body {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="generatePwshButton"> Generate Powershell </button>
+    <button id="generateBashButton"> Generate Bash </button><br>
+    <input type="checkbox" id="checkThreads" name="checkThreads" value="Threads">
+    <label for="checkThreads"> With threads </label><br>
+    <input type="checkbox" id="checkRandom" name="checkRandom" value="Random">
+    <label for="checkRandom"> With random values </label><br>
+    <div id="input">
+        <input type="text" id="inputText" name="inputText">
+        <label for="inputText"> input text </label><br>
+    </div>
+    <div id="output">
+        <input type="text" id="outputText" name="outputText">
+        <label for="outputText"> output script </label><br>
+    </div>
+
+    <script src="./index.js"></script>
+</body>
+
+</html>

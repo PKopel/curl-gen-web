@@ -1,10 +1,11 @@
 # curl-gen-server
 
-## Execute
+Webb app for curl scripts generation using [curl-gen](https://github.com/PKopel/curl-gen) library.
+Haskell code is compiled to webassembly using [astorius](https://github.com/tweag/asterius).
 
-* Run `stack exec -- curl-gen-server-exe` to see "We're inside the application!"
-* With `stack exec -- curl-gen-server-exe --verbose` you will see the same message, with more logging.
+## Try it
 
-## Run tests
+## Running locally
 
-`stack test`
+* Run `make start` to build and start the server
+* Run `make docker` to build docker image of the server

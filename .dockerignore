@@ -2,6 +2,6 @@
 *.swp
 tarballs/
 .stack-work/
+dist-newstyle
 _build
 node_modules
-dist-newstyle
