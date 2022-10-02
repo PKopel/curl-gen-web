@@ -17,7 +17,7 @@ compile:
 			--builddir $(AHC_CABAL_BUILD_DIR) --installdir $(AHC_CABAL_INSTALL_DIR) \
 			--install-method copy --overwrite-policy always
 	docker run --rm -v $(CURDIR):$(DOCKER_WS):z -w $(DOCKER_WS) $(AHC_DOCKER_IMAGE) \
-		chown -hR 1000:1000 $(BUILD_DIR)
+		chown -hR $(UID):$(UID) $(BUILD_DIR)
 
 .PHONY: link
 link: compile
@@ -29,7 +29,7 @@ link: compile
 			--input-mjs static/index.mjs --no-main --browser \
 			--gc-threshold 640
 	docker run --rm -v $(CURDIR):$(DOCKER_WS):z -w $(DOCKER_WS) $(AHC_DOCKER_IMAGE) \
-		chown -hR 1000:1000 $(BUILD_DIR)
+		chown -hR $(UID):$(UID) $(BUILD_DIR)
 
 .PHONY: docker
 docker:
