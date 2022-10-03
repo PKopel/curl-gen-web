@@ -4,36 +4,27 @@ import req from './curl-gen-wasm.req.mjs';
 
 async function handleModule(m) {
     const asterius = await rts.newAsteriusInstance(Object.assign(req, { module: m }));
-
-    const checkThreads = document.getElementById('checkThreads');
-    const checkRandom = document.getElementById('checkRandom');
-
-    const inputText = document.getElementById('inputText');
-    const outputText = document.getElementById('outputText');
-
-    let scriptExt = ".txt";
+    const threads = document.getElementById('checkThreads');
+    const random = document.getElementById('checkRandom');
+    const input = document.getElementById('inputText');
+    const output = document.getElementById('outputText');
+    let file = ".txt";
 
     document.getElementById('generateBashButton').addEventListener('click', async _ => {
-        outputText.value = await asterius.exports.generateBash(checkThreads.checked, checkRandom.checked, inputText.value);
-        scriptExt = ".sh"
+        output.value = await asterius.exports.generateBash(threads.checked, random.checked, input.value);
+        file = ".sh"
     });
 
     document.getElementById('generatePwshButton').addEventListener('click', async _ => {
-        outputText.value = await asterius.exports.generatePwsh(checkThreads.checked, checkRandom.checked, inputText.value);
-        scriptExt = ".ps1"
+        output.value = await asterius.exports.generatePwsh(threads.checked, random.checked, input.value);
+        file = ".ps1"
     });
 
     document.getElementById('downloadButton').addEventListener('click', _ => {
-        var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(outputText.value));
-        element.setAttribute('download', 'script' + scriptExt);
-
-        element.style.display = 'none';
-        document.body.appendChild(element);
-
-        element.click();
-
-        document.body.removeChild(element);
+        const download = document.createElement('a');
+        download.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output.value));
+        download.setAttribute('download', 'script' + file);
+        download.click();
     });
 }
 

@@ -27,10 +27,6 @@
             width: 100%;
         }
 
-        #text {
-            height: 100%;
-        }
-
         textarea {
             width: 100%;
             height: 100%;
@@ -49,8 +45,7 @@
         <label for="checkRandom"> With random values </label>
         <button id="downloadButton"> Download generated script </button>
     </div>
-
-    <div class="row" id="text">
+    <div class="row" style="height: 100%;">
         <div id="input" class="column">
             <label for="inputText"> input text </label><br>
             <textarea id="inputText" name="inputText">
@@ -77,7 +72,6 @@ curl -X GET -k -v http://localhost:8008/{path}/{id} \
             <textarea id="outputText" name="outputText"></textarea>
         </div>
     </div>
-
     <script src="./index.js"></script>
 </body>
 
