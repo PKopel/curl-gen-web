@@ -18,7 +18,7 @@ function download(filename, text) {
 async function handleModule(m) {
     const asterius = await rts.newAsteriusInstance(Object.assign(req, { module: m }));
 
-    //const generatePwshButton = document.getElementById('generatePwshButton');
+    const generatePwshButton = document.getElementById('generatePwshButton');
     const generateBashButton = document.getElementById('generateBashButton');
     const downloadButton = document.getElementById('downloadButton');
 
@@ -31,16 +31,14 @@ async function handleModule(m) {
     let scriptExt = ".txt";
 
     generateBashButton.addEventListener('click', async _ => {
-        outputText.value = await asterius.exports.generateBash(checkThreads.checked, checkRandom.checked, inputText.value)
+        outputText.value = await asterius.exports.generateBash(checkThreads.checked, checkRandom.checked, inputText.value);
         scriptExt = ".sh"
     });
 
-    /*
     generatePwshButton.addEventListener('click', async _ => {
-        outputText.value = await asterius.exports.generatePwsh(checkThreads.checked, checkRandom.checked, inputText.value)
+        outputText.value = await asterius.exports.generatePwsh(checkThreads.checked, checkRandom.checked, inputText.value);
         scriptExt = ".ps1"
     });
-    */
 
     downloadButton.addEventListener('click', _ => {
         download("script" + scriptExt, outputText.value);

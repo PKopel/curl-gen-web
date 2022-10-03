@@ -23,7 +23,10 @@ executable curl-gen-wasm
   main-is: Main.hs
   hs-source-dirs:
       wasm
-  ghc-options: -optl--export-function=generateBash -optl--export-function=generatePowershell  -Wall
+  ghc-options: 
+    -optl--export-function=generateBash
+    -optl--export-function=generatePwsh
+    -Wall
   build-depends:
       base >=4.11 && <10
     , curl-gen
