@@ -12,6 +12,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: 'index.html', context: 'static/' },
+        { from: 'index.css', context: 'static/' },
         { from: '*.wasm', context: `${process.env.ASTERIUS_OUTPUT_DIR}` }
       ]
     })
