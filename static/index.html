@@ -53,7 +53,24 @@
     <div class="row" id="text">
         <div id="input" class="column">
             <label for="inputText"> input text </label><br>
-            <textarea id="inputText" name="inputText"></textarea>
+            <textarea id="inputText" name="inputText">
+# test put
+curl -X PUT -k -v http://localhost:8008/{path} \
+    --header 'Accept: application/json' \
+    --data '{
+    "obj": {
+        "string":"data"
+    },
+    "array": [
+        1,
+        null
+    ]
+}'
+               
+# test get
+curl -X GET -k -v http://localhost:8008/{path}/{id} \
+    --header 'Accept: application/json'
+</textarea>
         </div>
         <div id="output" class="column">
             <label for="outputText"> output script </label><br>
