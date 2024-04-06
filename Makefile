@@ -17,7 +17,8 @@ compile:
 	docker run --rm -v $(CURDIR):$(DOCKER_WS):z -w $(DOCKER_WS) $(AHC_DOCKER_IMAGE) \
 		ahc-cabal install \
 			--builddir $(AHC_CABAL_BUILD_DIR) --installdir $(AHC_CABAL_INSTALL_DIR) \
-			--install-method copy --overwrite-policy always
+			--install-method copy --overwrite-policy always \
+			--enable-split-sections
 	docker run --rm -v $(CURDIR):$(DOCKER_WS):z -w $(DOCKER_WS) $(AHC_DOCKER_IMAGE) \
 		chown -hR $(UID):$(GID) $(BUILD_DIR)
 
