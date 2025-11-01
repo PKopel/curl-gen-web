@@ -40,7 +40,7 @@ jobs:
       - name: Get more space
         run: sudo rm -rf ${GITHUB_WORKSPACE}/.git
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
 
       - name: Build webpack
         run: make build
