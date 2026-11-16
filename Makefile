@@ -1,38 +1,16 @@
-AHC_DOCKER_IMAGE := terrorjack/asterius
 APP_DOCKER_IMAGE ?= pkopel/curl-gen-server
 APP_DOCKER_PORT ?= 8080
-DOCKER_WS := /workspace
 BUILD_DIR := ./build
-CABAL_DIR := $(DOCKER_WS)/$(BUILD_DIR)/.cabal
-CABAL_BUILD_DIR := $(BUILD_DIR)/cabal
-AHC_CABAL_BUILD_DIR := $(BUILD_DIR)/ahc-cabal
-AHC_CABAL_INSTALL_DIR := $(BUILD_DIR)
-ASTERIUS_OUTPUT_DIR = $(BUILD_DIR)/asterius
-UID := $(shell id -u)
-GID := $(shell id -g)
+WASM_CABAL_BUILD_DIR := $(BUILD_DIR)/wasm-cabal
+WASM_OUTPUT_DIR := $(BUILD_DIR)/wasm
 
 
 .PHONY: compile
 compile:
-	docker run --rm -v $(CURDIR):$(DOCKER_WS):z -w $(DOCKER_WS) $(AHC_DOCKER_IMAGE) \
-		ahc-cabal install \
-			--builddir $(AHC_CABAL_BUILD_DIR) --installdir $(AHC_CABAL_INSTALL_DIR) \
-			--install-method copy --overwrite-policy always \
-			--enable-split-sections
-	docker run --rm -v $(CURDIR):$(DOCKER_WS):z -w $(DOCKER_WS) $(AHC_DOCKER_IMAGE) \
-		chown -hR $(UID):$(GID) $(BUILD_DIR)
-
-.PHONY: link
-link: compile
-	mkdir -p $(ASTERIUS_OUTPUT_DIR)
-	docker run --rm -v $(CURDIR):$(DOCKER_WS):z -w $(DOCKER_WS) $(AHC_DOCKER_IMAGE) \
-		ahc-dist \
-			--input-exe $(AHC_CABAL_INSTALL_DIR)/curl-gen-wasm \
-			--output-directory $(ASTERIUS_OUTPUT_DIR) \
-			--input-mjs static/index.mjs --no-main --browser \
-			--gc-threshold 640
-	docker run --rm -v $(CURDIR):$(DOCKER_WS):z -w $(DOCKER_WS) $(AHC_DOCKER_IMAGE) \
-		chown -hR $(UID):$(GID) $(BUILD_DIR)
+	wasm32-wasi-cabal build --builddir=$(WASM_CABAL_BUILD_DIR) exe:curl-gen-wasm
+	mkdir -p $(WASM_OUTPUT_DIR)
+	cp "$$(wasm32-wasi-cabal list-bin --builddir=$(WASM_CABAL_BUILD_DIR) exe:curl-gen-wasm)" $(WASM_OUTPUT_DIR)/curl-gen-wasm.wasm
+	"$$(wasm32-wasi-ghc --print-libdir)/post-link.mjs" -i $(WASM_OUTPUT_DIR)/curl-gen-wasm.wasm -o $(WASM_OUTPUT_DIR)/curl-gen-wasm.mjs
 
 .PHONY: docker
 docker:
@@ -43,14 +21,14 @@ docker-run: docker
 	docker run --rm -p $(APP_DOCKER_PORT):80 $(APP_DOCKER_IMAGE)
 
 .PHONY: start
-start: link
-	npm install
-	ASTERIUS_OUTPUT_DIR=$(ASTERIUS_OUTPUT_DIR) npm start
+start: compile
+	npm ci
+	WASM_OUTPUT_DIR=$(WASM_OUTPUT_DIR) npm start
 
 .PHONY: build
-build: link
-	npm install
-	ASTERIUS_OUTPUT_DIR=$(ASTERIUS_OUTPUT_DIR) npm run build
+build: compile
+	npm ci
+	WASM_OUTPUT_DIR=$(WASM_OUTPUT_DIR) npm run build
 
 .PHONY: clean
 clean:

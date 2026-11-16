@@ -42,6 +42,13 @@ jobs:
 
       - uses: actions/setup-node@v7
 
+      - name: Install GHC WASM toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq unzip zstd
+          curl -fsSL https://gitlab.haskell.org/haskell-wasm/ghc-wasm-meta/-/raw/master/bootstrap.sh | FLAVOUR=9.14 sh
+          ~/.ghc-wasm/add_to_github_path.sh
+
       - name: Build webpack
         run: make build
 

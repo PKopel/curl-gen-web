@@ -8,6 +8,9 @@
         "start": "webpack serve",
         "build": "webpack"
     },
+    "dependencies": {
+        "@bjorn3/browser_wasi_shim": "0.4.2"
+    },
     "devDependencies": {
         "copy-webpack-plugin": ">=14.0.0",
         "webpack": ">=5.112.2",
