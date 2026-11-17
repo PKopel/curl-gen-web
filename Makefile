@@ -9,7 +9,7 @@ WASM_OUTPUT_DIR := $(BUILD_DIR)/wasm
 compile:
 	wasm32-wasi-cabal build --builddir=$(WASM_CABAL_BUILD_DIR) exe:curl-gen-wasm
 	mkdir -p $(WASM_OUTPUT_DIR)
-	cp "$$(wasm32-wasi-cabal list-bin --builddir=$(WASM_CABAL_BUILD_DIR) exe:curl-gen-wasm)" $(WASM_OUTPUT_DIR)/curl-gen-wasm.wasm
+	cp "$$(wasm32-wasi-cabal list-bin --builddir=$(WASM_CABAL_BUILD_DIR) exe:curl-gen-wasm | tail -n 1)" $(WASM_OUTPUT_DIR)/curl-gen-wasm.wasm
 	"$$(wasm32-wasi-ghc --print-libdir)/post-link.mjs" -i $(WASM_OUTPUT_DIR)/curl-gen-wasm.wasm -o $(WASM_OUTPUT_DIR)/curl-gen-wasm.mjs
 
 .PHONY: docker

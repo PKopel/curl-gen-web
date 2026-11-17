@@ -3,7 +3,7 @@
 
 module Main where
 
-import           GHC.Wasm.Prim                  ( JSString
+import           GHC.Wasm.Prim                  ( JSString(..)
                                                 , fromJSString
                                                 , toJSString
                                                 )
@@ -42,7 +42,7 @@ generatePwsh opts contents = case parseCurl contents of
     Right cu -> PwshT.script opts $ map (PwshF.writeFunction opts) cu
 
 generatePwshJs :: Bool -> Bool -> JSString -> JSString
-generatePwshJs thrd rand = let opts = ScriptOptions thrd rand Pwsh
+generatePwshJs thrd rand = let opts = ScriptOptions thrd rand Powershell
     in toJSString . unpack . generatePwsh opts . pack . fromJSString
 
 

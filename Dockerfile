@@ -4,7 +4,7 @@ FROM node AS wasmbuilder
 WORKDIR /workspace
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl git jq unzip zstd \
+    alex curl git jq unzip zstd \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://gitlab.haskell.org/haskell-wasm/ghc-wasm-meta/-/raw/master/bootstrap.sh | FLAVOUR=9.14 sh
