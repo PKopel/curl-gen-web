@@ -13,7 +13,7 @@ async function handleModule() {
         wasi_snapshot_preview1: wasi.wasiImport,
         ghc_wasm_jsffi: createJsffiImports(exports),
     };
-    const { instance } = await WebAssembly.instantiate(wasm, imports);
+    const instance = await WebAssembly.instantiate(wasm, imports);
     Object.assign(exports, instance.exports);
     wasi.initialize(instance);
 
