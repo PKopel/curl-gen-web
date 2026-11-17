@@ -1,11 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE JavaScriptFFI #-}
 
 module Main where
 
-import           Asterius.Types
-import           Asterius.Text
+import           GHC.Wasm.Prim                  ( JSString(..)
+                                                , fromJSString
+                                                , toJSString
+                                                )
 import           Data.Text                      ( Text
                                                 , pack
+                                                , unpack
                                                 )
 import           Bash.Function                 as BashF
                                                 ( writeFunction )
@@ -21,7 +25,7 @@ import           Types.Script                   ( ScriptOptions(..)
                                                 )
 
 main :: IO ()
-main = error "built with --no-main"
+main = pure ()
 
 generateBash :: ScriptOptions -> Text -> Text
 generateBash opts contents = case parseCurl contents of
@@ -30,7 +34,7 @@ generateBash opts contents = case parseCurl contents of
 
 generateBashJs :: Bool -> Bool -> JSString -> JSString
 generateBashJs thrd rand = let opts = ScriptOptions thrd rand Bash
-    in textToJSString . generateBash opts . textFromJSString
+    in toJSString . unpack . generateBash opts . pack . fromJSString
 
 generatePwsh :: ScriptOptions -> Text -> Text
 generatePwsh opts contents = case parseCurl contents of
@@ -38,8 +42,8 @@ generatePwsh opts contents = case parseCurl contents of
     Right cu -> PwshT.script opts $ map (PwshF.writeFunction opts) cu
 
 generatePwshJs :: Bool -> Bool -> JSString -> JSString
-generatePwshJs thrd rand = let opts = ScriptOptions thrd rand Bash
-    in textToJSString . generatePwsh opts . textFromJSString
+generatePwshJs thrd rand = let opts = ScriptOptions thrd rand Powershell
+    in toJSString . unpack . generatePwsh opts . pack . fromJSString
 
 
 
