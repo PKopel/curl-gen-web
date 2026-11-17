@@ -33,7 +33,7 @@ jobs:
         run: |
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          
+
       - name: Checkout
         uses: actions/checkout@v7
 
@@ -45,7 +45,7 @@ jobs:
       - name: Install GHC WASM toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq unzip zstd
+          sudo apt-get install -y jq unzip zstd alex
           curl -fsSL https://gitlab.haskell.org/haskell-wasm/ghc-wasm-meta/-/raw/master/bootstrap.sh | FLAVOUR=9.14 sh
           ~/.ghc-wasm/add_to_github_path.sh
 
